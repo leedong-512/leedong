@@ -1,4 +1,9 @@
-
+<?php
+/**
+ *
+ *
+ */
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,6 +44,7 @@
         }
         .layui-form-item{
             margin-left: -20px;
+            margin-top: 50px;
         }
         #logoid{
             margin-top: -16px;
@@ -67,16 +73,16 @@
     </style>
 </head>
 <body>
-<form class="layui-form" action="/user/login" method="post">
+<form class="layui-form" action="">
     <div class="container">
         <div class="layui-form-mid layui-word-aux">
             <p1>后台登录</p1>
-<!--            <img id="logoid" src="06.png" height="35">-->
+            <!--            <img id="logoid" src="06.png" height="35">-->
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">用户名</label>
             <div class="layui-input-block">
-                <input type="text" name="title" required  lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                <input type="text" name="username" required  lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -86,14 +92,14 @@
             </div>
             <!-- <div class="layui-form-mid layui-word-aux">辅助文字</div> -->
         </div>
-        <div class="layui-form-item">
+        <!--<div class="layui-form-item">
             <label class="layui-form-label">验证码</label>
             <div class="layui-input-inline">
                 <input type="text" name="yzm" required  lay-verify="required" placeholder="请输入验证码" autocomplete="off" class="layui-input verity">
             </div>
-            <!-- <div class="layui-form-mid layui-word-aux">辅助文字</div> -->
+            <div class="layui-form-mid layui-word-aux">辅助文字</div>
 
-        </div>
+        </div>-->
         <!-- 			  <div class="layui-form-item">
                             <label class="layui-form-label">记住密码</label>
                             <div class="layui-input-block">
@@ -106,17 +112,43 @@
                 <button class="layui-btn" lay-submit lay-filter="formDemo">登陆</button>
             </div>
         </div>
-<!--        <a href="" class="font-set">忘记密码?</a>  <a href="" class="font-set">立即注册</a>-->
+        <!--        <a href="" class="font-set">忘记密码?</a>  <a href="" class="font-set">立即注册</a>-->
     </div>
 </form>
 <script type="text/javascript" src="/js/layui/layui.js"></script>
+<script type="text/javascript" src="/js/jquery.min.js"></script>
 <script>
+
+    /*$(document).on('click','#fromSub',function(){
+        $.post("/user/login",data.field,function(res){
+            if(res.code == 200){
+                // layer.msg(res.info, {time: 2000});
+                var url = "/index"; //
+                setTimeout(window.location.href=url,1000);
+            }else{
+                layer.msg(res.info, {time: 2000});
+            }
+        },'json');
+        return false;
+    });*/
     layui.use(['form', 'layedit', 'laydate'], function(){
         var form = layui.form
             ,layer = layui.layer
             ,layedit = layui.layedit
             ,laydate = layui.laydate;
 
+        form.on('submit(formDemo)', function(data){
+            $.post("/user/login",data.field,function(res){
+                if(res.code == 200){
+                    // layer.msg(res.info, {time: 2000});
+                    var url = "/index"; //
+                    setTimeout(window.location.href=url,1000);
+                }else{
+                    layer.msg(res.msg, {time: 2000});
+                }
+            },'json');
+            return false;
+        });
         //日期
         /* laydate.render({
            elem: '#date'
@@ -153,12 +185,12 @@
          });*/
 
         //监听提交
-        form.on('submit(demo1)', function(data){
+        /*form.on('submit(demo1)', function(data){
             layer.alert(JSON.stringify(data.field), {
                 title: '最终的提交信息'
             })
             return false;
-        });
+        });*/
 
         //表单初始赋值
         /* form.val('example', {

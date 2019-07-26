@@ -1,6 +1,8 @@
 <?php
 namespace app\controllers;
 
+use app\models\User;
+
 class IndexController extends BaseController {
 
     public function init()
@@ -9,7 +11,28 @@ class IndexController extends BaseController {
     }
 
     public function actionIndex() {
-//        $this->layout = true;
+//        $this->layout = false;
+        $view = $this->getView();
+        $view->params['module'] = 'userlist';
         return $this->render('index');
+    }
+
+    public function actionUserlist() {
+
+//        $data = User::find()->asArray()->all();
+        $get = $this->getGet();
+        $user = new User();
+        $page = isset($get['page']) ? $get['page'] : 1;
+        $limit = isset($get['limit']) ? $get['limit'] : 2;
+        $where = [];
+        $data = $user->getList($where, $page, $limit);
+        return $this->asJson(['code' => 000, 'msg' => '', 'count' => $data['count'], 'data' => $data['data']]);
+    }
+
+    public function actionAdduserpage() {
+        $view = $this->getView();
+        $view->params['module'] = 'adduser';
+        $this->layout = false;
+        return $this->render('add_user');
     }
 }
